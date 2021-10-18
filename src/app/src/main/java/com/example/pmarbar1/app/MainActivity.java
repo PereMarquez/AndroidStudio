@@ -31,33 +31,36 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity {
 
     // --------------------------------------------------------------
+    //Variables estáticas creadas para usar más adelante
     // --------------------------------------------------------------
+    //ETIQUETA_LOG, usada en los métodos log para diferencias y ordenar el Logcat
     private static final String ETIQUETA_LOG = ">>>>";
-
     private static final int CODIGO_PETICION_PERMISOS = 11223344;
 
     // --------------------------------------------------------------
+    //Objetos que usamos en el proyecto
     // --------------------------------------------------------------
-
     private Intent elIntentDelServicio = null;
-
     private BluetoothLeScanner elEscanner;
-
     private ScanCallback callbackDelEscaneo = null;
-
-
-
-    private TextView elTexto;
-    private Button elBotonEnviar;
+    // --------------------------------------------------------------
+    //Métodos que usamos en el proyecto
+    // --------------------------------------------------------------
 
     // --------------------------------------------------------------
+    //buscarTodosLosDispositivosBTLE()
+    // Este método escanea los beacons y muestra los resultados de la búsqueda, tanto errores como
+    // lo que está haciendo en cada momento
     // --------------------------------------------------------------
     private void buscarTodosLosDispositivosBTLE() {
-        Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): empieza ");
 
+
+        Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): empieza ");
         Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): instalamos scan callback ");
 
         this.callbackDelEscaneo = new ScanCallback() {
+
+            //Resultados de la búsqueda
             @Override
             public void onScanResult( int callbackType, ScanResult resultado ) {
                 super.onScanResult(callbackType, resultado);
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            //En caso de fallo...
             @Override
             public void onScanFailed(int errorCode) {
                 super.onScanFailed(errorCode);
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        //Empieza escaneo...
         Log.d(ETIQUETA_LOG, " buscarTodosLosDispositivosBTL(): empezamos a escanear ");
 
         this.elEscanner.startScan( this.callbackDelEscaneo);
@@ -88,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
     } // ()
 
     // --------------------------------------------------------------
+    //ScanResult->mostrarInformacionDispositivoBTLE()
+    // Este método nos muestra los beacons encontrados y nos da toda la información obtenida del
+    // beacon en el LogCat
+    //Además, se ha aplicado un filtro para que solamente muestre nuestro beacon, y no los demás
+    //o las búsquedas vacias
     // --------------------------------------------------------------
     private void mostrarInformacionDispositivoBTLE( ScanResult resultado ) {
 
@@ -96,57 +106,49 @@ public class MainActivity extends AppCompatActivity {
         int rssi = resultado.getRssi();
         String filtroNombre =  bluetoothDevice.getName() + "";
 
-        if (filtroNombre.equals("AusiasBM-GTI")){
-        Log.d(ETIQUETA_LOG, " ****************************************************");
-        Log.d(ETIQUETA_LOG, " ****** DISPOSITIVO DETECTADO BTLE ****************** ");
-        Log.d(ETIQUETA_LOG, " ****************************************************");
-        Log.d(ETIQUETA_LOG, " nombre = " + bluetoothDevice.getName());
-        Log.d(ETIQUETA_LOG, " toString = " + bluetoothDevice.toString());
+        //Filtro de resultados, solamente nos muestra nuestro beacon
+        if (filtroNombre.equals("GTI-3A-PERE")){
+            Log.d(ETIQUETA_LOG, " ****************************************************");
+            Log.d(ETIQUETA_LOG, " ****** DISPOSITIVO DETECTADO BTLE ****************** ");
+            Log.d(ETIQUETA_LOG, " ****************************************************");
+            Log.d(ETIQUETA_LOG, " nombre = " + bluetoothDevice.getName());
+            Log.d(ETIQUETA_LOG, " toString = " + bluetoothDevice.toString());
 
+            Log.d(ETIQUETA_LOG, " dirección = " + bluetoothDevice.getAddress());
+            Log.d(ETIQUETA_LOG, " rssi = " + rssi );
 
-        /*
-        ParcelUuid[] puuids = bluetoothDevice.getUuids();
-        if ( puuids.length >= 1 ) {
-            //Log.d(ETIQUETA_LOG, " uuid = " + puuids[0].getUuid());
-           // Log.d(ETIQUETA_LOG, " uuid = " + puuids[0].toString());
-        }*/
+            Log.d(ETIQUETA_LOG, " bytes = " + new String(bytes));
+            Log.d(ETIQUETA_LOG, " bytes (" + bytes.length + ") = " + Utilidades.bytesToHexString(bytes));
 
-        Log.d(ETIQUETA_LOG, " dirección = " + bluetoothDevice.getAddress());
-        Log.d(ETIQUETA_LOG, " rssi = " + rssi );
+            TramaIBeacon tib = new TramaIBeacon(bytes);
 
-        Log.d(ETIQUETA_LOG, " bytes = " + new String(bytes));
-        Log.d(ETIQUETA_LOG, " bytes (" + bytes.length + ") = " + Utilidades.bytesToHexString(bytes));
-
-        TramaIBeacon tib = new TramaIBeacon(bytes);
-
-        Log.d(ETIQUETA_LOG, " ----------------------------------------------------");
-        Log.d(ETIQUETA_LOG, " prefijo  = " + Utilidades.bytesToHexString(tib.getPrefijo()));
-        Log.d(ETIQUETA_LOG, "          advFlags = " + Utilidades.bytesToHexString(tib.getAdvFlags()));
-        Log.d(ETIQUETA_LOG, "          advHeader = " + Utilidades.bytesToHexString(tib.getAdvHeader()));
-        Log.d(ETIQUETA_LOG, "          companyID = " + Utilidades.bytesToHexString(tib.getCompanyID()));
-        Log.d(ETIQUETA_LOG, "          iBeacon type = " + Integer.toHexString(tib.getiBeaconType()));
-        Log.d(ETIQUETA_LOG, "          iBeacon length 0x = " + Integer.toHexString(tib.getiBeaconLength()) + " ( "
-                + tib.getiBeaconLength() + " ) ");
-        Log.d(ETIQUETA_LOG, " uuid  = " + Utilidades.bytesToHexString(tib.getUUID()));
-        Log.d(ETIQUETA_LOG, " uuid  = " + Utilidades.bytesToString(tib.getUUID()));
-        Log.d(ETIQUETA_LOG, " major  = " + Utilidades.bytesToHexString(tib.getMajor()) + "( "
-                + Utilidades.bytesToInt(tib.getMajor()) + " ) ");
-        Log.d(ETIQUETA_LOG, " minor  = " + Utilidades.bytesToHexString(tib.getMinor()) + "( "
-                + Utilidades.bytesToInt(tib.getMinor()) + " ) ");
-        Log.d(ETIQUETA_LOG, " txPower  = " + Integer.toHexString(tib.getTxPower()) + " ( " + tib.getTxPower() + " )");
-        Log.d(ETIQUETA_LOG, " ****************************************************");
+            Log.d(ETIQUETA_LOG, " ----------------------------------------------------");
+            Log.d(ETIQUETA_LOG, " prefijo  = " + Utilidades.bytesToHexString(tib.getPrefijo()));
+            Log.d(ETIQUETA_LOG, "          advFlags = " + Utilidades.bytesToHexString(tib.getAdvFlags()));
+            Log.d(ETIQUETA_LOG, "          advHeader = " + Utilidades.bytesToHexString(tib.getAdvHeader()));
+            Log.d(ETIQUETA_LOG, "          companyID = " + Utilidades.bytesToHexString(tib.getCompanyID()));
+            Log.d(ETIQUETA_LOG, "          iBeacon type = " + Integer.toHexString(tib.getiBeaconType()));
+            Log.d(ETIQUETA_LOG, "          iBeacon length 0x = " + Integer.toHexString(tib.getiBeaconLength()) + " ( "
+                    + tib.getiBeaconLength() + " ) ");
+            Log.d(ETIQUETA_LOG, " uuid  = " + Utilidades.bytesToHexString(tib.getUUID()));
+            Log.d(ETIQUETA_LOG, " uuid  = " + Utilidades.bytesToString(tib.getUUID()));
+            Log.d(ETIQUETA_LOG, " major  = " + Utilidades.bytesToHexString(tib.getMajor()) + "( "
+                    + Utilidades.bytesToInt(tib.getMajor()) + " ) ");
+            Log.d(ETIQUETA_LOG, " minor  = " + Utilidades.bytesToHexString(tib.getMinor()) + "( "
+                    + Utilidades.bytesToInt(tib.getMinor()) + " ) ");
+            Log.d(ETIQUETA_LOG, " txPower  = " + Integer.toHexString(tib.getTxPower()) + " ( " + tib.getTxPower() + " )");
+            Log.d(ETIQUETA_LOG, " ****************************************************");
         }
     } // ()
 
     // --------------------------------------------------------------
+    //String->buscarEsteDispositivoBTLE()
+    //Nos muestra la información del escaneo
     // --------------------------------------------------------------
     private void buscarEsteDispositivoBTLE(final String dispositivoBuscado ) {
         Log.d(ETIQUETA_LOG, " buscarEsteDispositivoBTLE(): empieza ");
 
         Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): instalamos scan callback ");
-
-
-        // super.onScanResult(ScanSettings.SCAN_MODE_LOW_LATENCY, result); para ahorro de energía
 
         this.callbackDelEscaneo = new ScanCallback() {
             @Override
@@ -175,13 +177,12 @@ public class MainActivity extends AppCompatActivity {
         ScanFilter sf = new ScanFilter.Builder().setDeviceName( dispositivoBuscado ).build();
 
         Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): empezamos a escanear buscando: " + dispositivoBuscado );
-        //Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): empezamos a escanear buscando: " + dispositivoBuscado
-        //      + " -> " + Utilidades.stringToUUID( dispositivoBuscado ) );
-
         this.elEscanner.startScan( this.callbackDelEscaneo );
     } // ()
 
     // --------------------------------------------------------------
+    //detenerBusquedaDispositivosBTLE()
+    //Para el escaneo
     // --------------------------------------------------------------
     private void detenerBusquedaDispositivosBTLE() {
 
@@ -195,31 +196,8 @@ public class MainActivity extends AppCompatActivity {
     } // ()
 
     // --------------------------------------------------------------
-    // --------------------------------------------------------------
-    public void botonBuscarDispositivosBTLEPulsado( View v ) {
-        Log.d(ETIQUETA_LOG, " boton buscar dispositivos BTLE Pulsado" );
-        this.buscarTodosLosDispositivosBTLE();
-    } // ()
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
-    public void botonBuscarNuestroDispositivoBTLEPulsado( View v ) {
-        Log.d(ETIQUETA_LOG, " boton nuestro dispositivo BTLE Pulsado" );
-        //this.buscarEsteDispositivoBTLE( Utilidades.stringToUUID( "EPSG-GTI-PROY-3A" ) );
-
-        //this.buscarEsteDispositivoBTLE( "EPSG-GTI-PROY-3A" );
-        this.buscarEsteDispositivoBTLE( "AusiasBM-GTI" );
-
-    } // ()
-
-    // --------------------------------------------------------------
-    // --------------------------------------------------------------
-    public void botonDetenerBusquedaDispositivosBTLEPulsado( View v ) {
-        Log.d(ETIQUETA_LOG, " boton detener busqueda dispositivos BTLE Pulsado" );
-        this.detenerBusquedaDispositivosBTLE();
-    } // ()
-
-    // --------------------------------------------------------------
+    //inicializarBlueTooth()
+    //Método que inicializa el bluetooth y nos muestra los pasos que va haciendo
     // --------------------------------------------------------------
     private void inicializarBlueTooth() {
         Log.d(ETIQUETA_LOG, " inicializarBlueTooth(): obtenemos adaptador BT ");
@@ -262,18 +240,15 @@ public class MainActivity extends AppCompatActivity {
         }
     } // ()
 
-
     // --------------------------------------------------------------
+    //Al inicializar la aplicación
     // --------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        elBotonEnviar=findViewById(R.id.botonREST);
 
         Log.d(ETIQUETA_LOG, " onCreate(): empieza ");
-
-        inicializarBlueTooth();
 
         Log.d(ETIQUETA_LOG, " onCreate(): termina ");
 
@@ -306,6 +281,7 @@ public class MainActivity extends AppCompatActivity {
     } // ()
 
     //-------------------------------------------------------------------------
+    //Métodos peticionario REST
     //-------------------------------------------------------------------------
     public void boton_enviar_pulsado (View quien) {
         Log.d("clienterestandroid", "boton_enviar_pulsado");
@@ -314,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
         // ojo: creo que hay que crear uno nuevo cada vez
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
-        elPeticionario.hacerPeticionREST("GET",  "http://192.168.1.146:8000/api/mostrarMedidas", null,
+        elPeticionario.hacerPeticionREST("GET",  "http://192.168.31.98:8000/api/mostrarMedidas", null,
                 new PeticionarioREST.RespuestaREST () {
                     @Override
                     public void callback(int codigo, String cuerpo) {
@@ -326,17 +302,16 @@ public class MainActivity extends AppCompatActivity {
     } // pulsado ()
 
     public void boton_escribir_pulsado (View quien) {
-        Log.d("clienterestandroid", "boton_enviar_pulsado");
+        Log.d("clienterestandroid", "boton_escribir_pulsado");
 
         String cuerpoPost = "{" +
-                "\"nombre\" : " + "\"Pere\", " +
-                "\"correo\" : " + "\"pere@correo.es\"" +
+                "\"valor\" : " + 888 +
                 "}";
 
         // ojo: creo que hay que crear uno nuevo cada vez
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
-        elPeticionario.hacerPeticionREST("POST",  "http://192.168.1.146:8000/api/agregar", cuerpoPost,
+        elPeticionario.hacerPeticionREST("POST",  "http://192.168.31.98:8000/api/agregar", cuerpoPost,
                 new PeticionarioREST.RespuestaREST () {
                     @Override
                     public void callback(int codigo, String cuerpo) {
@@ -364,6 +339,10 @@ public class MainActivity extends AppCompatActivity {
         this.elIntentDelServicio.putExtra("tiempoDeEspera", (long) 5000);
         startService( this.elIntentDelServicio );
 
+        Log.d(ETIQUETA_LOG, " Inicializa búsqueda");
+        inicializarBlueTooth();
+        this.buscarEsteDispositivoBTLE("GTI-3A-PERE");
+
     } // ()
 
     // ---------------------------------------------------------------------------------------------
@@ -379,7 +358,9 @@ public class MainActivity extends AppCompatActivity {
 
         this.elIntentDelServicio = null;
 
-        Log.d(ETIQUETA_LOG, " boton detener servicio Pulsado" );
+        Log.d(ETIQUETA_LOG, "boton detener servicio Pulsado" );
+
+        this.detenerBusquedaDispositivosBTLE();
 
 
     } // ()

@@ -7,60 +7,75 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/botonBuscarDispositivosBTLE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:onClick="botonBuscarDispositivosBTLEPulsado"
-        android:text="Buscar Dispositivos BTLE nou 4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/botonDetenerBusquedaDispositivosBTLE"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="136dp"
-        android:onClick="botonDetenerBusquedaDispositivosBTLEPulsado"
-        android:text="Detener búsaqueda Dispositivos BTLE"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonREST" />
-
-    <Button
         android:id="@+id/botonREST"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="144dp"
+        android:onClick="boton_enviar_pulsado"
+        android:text="GET"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/botonREST2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:onClick="boton_escribir_pulsado"
-        android:text="Petición REST"
-        app:layout_constraintEnd_toEndOf="@+id/botonBuscarDispositivosBTLE"
-        app:layout_constraintHorizontal_bias="0.588"
-        app:layout_constraintStart_toStartOf="@+id/botonBuscarDispositivosBTLE"
-        app:layout_constraintTop_toBottomOf="@+id/botonBuscarDispositivosBTLE" />
+        android:text="POST"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/botonREST"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/botonREST"
+        app:layout_constraintTop_toBottomOf="@+id/botonREST"
+        app:layout_constraintVertical_bias="0.214" />
 
     <Button
         android:id="@+id/botonBuscarDispositivosBTLE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:onClick="botonArrancarServicioPulsado"
         android:text="Arrancar Servicio"
-        app:layout_constraintBottom_toTopOf="@+id/botonBuscarDispositivosBTLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/botonDetenerBusquedaDispositivosBTLE" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/botonDetenerBusquedaDispositivosBTLE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:onClick="botonDetenerServicioPulsado"
         android:text="Detener Servicio"
+        app:layout_constraintEnd_toEndOf="@+id/botonBuscarDispositivosBTLE"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/botonBuscarDispositivosBTLE"
+        app:layout_constraintTop_toBottomOf="@+id/botonBuscarDispositivosBTLE" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:text="-----------PETICIONES REST-----------"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botonDetenerBusquedaDispositivosBTLE" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="-----------SERVICIO-----------"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
