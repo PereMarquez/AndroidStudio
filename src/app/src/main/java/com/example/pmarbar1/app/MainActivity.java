@@ -9,6 +9,7 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
+import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         String filtroNombre =  bluetoothDevice.getName() + "";
 
         //Filtro de resultados, solamente nos muestra nuestro beacon
-        if (filtroNombre.equals("GTI-3A-PERE")){
+        //if (filtroNombre.equals("GTI-3A-PERE")){
             Log.d(ETIQUETA_LOG, " ****************************************************");
             Log.d(ETIQUETA_LOG, " ****** DISPOSITIVO DETECTADO BTLE ****************** ");
             Log.d(ETIQUETA_LOG, " ****************************************************");
@@ -138,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                     + Utilidades.bytesToInt(tib.getMinor()) + " ) ");
             Log.d(ETIQUETA_LOG, " txPower  = " + Integer.toHexString(tib.getTxPower()) + " ( " + tib.getTxPower() + " )");
             Log.d(ETIQUETA_LOG, " ****************************************************");
-        }
+        //}
     } // ()
 
     // --------------------------------------------------------------
@@ -174,10 +176,13 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        ScanFilter sf = new ScanFilter.Builder().setDeviceName( dispositivoBuscado ).build();
+        ArrayList<ScanFilter> filters = new ArrayList<ScanFilter>();
 
+        ScanFilter scanFilterName = new ScanFilter.Builder().setDeviceName(dispositivoBuscado).build();
+        filters.add(scanFilterName);
+        ScanSettings settings = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_POWER).build();
+        this.elEscanner.startScan(filters, settings, this.callbackDelEscaneo );
         Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): empezamos a escanear buscando: " + dispositivoBuscado );
-        this.elEscanner.startScan( this.callbackDelEscaneo );
     } // ()
 
     // --------------------------------------------------------------
@@ -290,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
         // ojo: creo que hay que crear uno nuevo cada vez
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
-        elPeticionario.hacerPeticionREST("GET",  "http://192.168.31.98:8000/api/mostrarMedidas", null,
+        elPeticionario.hacerPeticionREST("GET",  "http://172.20.10.9:8000/api/mostrarMedidas", null,
                 new PeticionarioREST.RespuestaREST () {
                     @Override
                     public void callback(int codigo, String cuerpo) {
@@ -311,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
         // ojo: creo que hay que crear uno nuevo cada vez
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
-        elPeticionario.hacerPeticionREST("POST",  "http://192.168.31.98:8000/api/agregar", cuerpoPost,
+        elPeticionario.hacerPeticionREST("POST",  "http://172.20.10.9:8000/api/agregar", cuerpoPost,
                 new PeticionarioREST.RespuestaREST () {
                     @Override
                     public void callback(int codigo, String cuerpo) {
