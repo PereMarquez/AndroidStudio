@@ -1,5 +1,9 @@
 package com.example.pmarbar1.app;
 // ------------------------------------------------------------------
+// Nombre del fichero: MainActivity.java
+// Autor: Pere Márquez Barber
+// Fecha: 15/10/21
+// Fichero con la lógica de la app
 // ------------------------------------------------------------------
 
 import android.Manifest;

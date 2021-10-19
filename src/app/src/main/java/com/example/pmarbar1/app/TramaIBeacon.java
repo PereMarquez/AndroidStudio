@@ -1,11 +1,13 @@
 
 package com.example.pmarbar1.app;
-
+// ------------------------------------------------------------------
+// Nombre del fichero: TramaIBeacon.java
+// Autor: Pere Márquez Barber
+// Fecha: 15/10/21
+// Define la trama que se manda por bluetooth
+// ------------------------------------------------------------------
 import java.util.Arrays;
 
-// -----------------------------------------------------------------------------------
-// @author: Jordi Bataller i Mascarell
-// -----------------------------------------------------------------------------------
 public class TramaIBeacon {
     private byte[] prefijo = null; // 9 bytes
     private byte[] uuid = null; // 16 bytes

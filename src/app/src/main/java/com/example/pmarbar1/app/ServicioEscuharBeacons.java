@@ -1,5 +1,10 @@
 package com.example.pmarbar1.app;
-
+// ------------------------------------------------------------------
+// Nombre del fichero: ServicioEscucharBeacons.java
+// Autor: Pere Márquez Barber
+// Fecha: 15/10/21
+// Servicio en primer plano para escuchas beacons
+// ------------------------------------------------------------------
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;

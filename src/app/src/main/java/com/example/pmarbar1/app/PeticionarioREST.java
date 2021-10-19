@@ -1,6 +1,12 @@
 
 package com.example.pmarbar1.app;
 
+// ------------------------------------------------------------------
+// Nombre del fichero: PeticionarioREST.java
+// Autor: Pere Márquez Barber
+// Fecha: 15/10/21
+// Fichero para lo smétodos del peticionario REST, GET y POST
+// ------------------------------------------------------------------
 
 import android.os.AsyncTask;
 import android.util.Log;

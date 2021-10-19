@@ -1,13 +1,15 @@
 package com.example.pmarbar1.app;
 
-
+// ------------------------------------------------------------------
+// Nombre del fichero: Utilidiades.java
+// Autor: Pere Márquez Barber
+// Fecha: 15/10/21
+// Fichero con la lógica de la app
+// ------------------------------------------------------------------
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-// -----------------------------------------------------------------------------------
-// @author: Jordi Bataller i Mascarell
-// -----------------------------------------------------------------------------------
 public class Utilidades {
 
     // -------------------------------------------------------------------------------
