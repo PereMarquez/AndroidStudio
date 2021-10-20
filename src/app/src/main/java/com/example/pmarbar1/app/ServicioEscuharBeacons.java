@@ -17,6 +17,8 @@ import static android.app.Service.START_STICKY;
 public class ServicioEscuharBeacons  extends IntentService {
 
     // ---------------------------------------------------------------------------------------------
+    // Esta clase sirve para relacionar los métodos de MainActivity con el servicio
+    // Al iniciarse arranca el servicio
     // ---------------------------------------------------------------------------------------------
     private static final String ETIQUETA_LOG = ">>>>";
 
@@ -24,8 +26,10 @@ public class ServicioEscuharBeacons  extends IntentService {
 
     private boolean seguir = true;
 
-    // ---------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------
+    // ServicioEscucharBeacons()->
+    // Constructor de la clase
+    // --------------------------------------------------------------
     public ServicioEscuharBeacons(  ) {
         super("HelloIntentService");
 
@@ -50,8 +54,10 @@ public class ServicioEscuharBeacons  extends IntentService {
 
      */
 
-    // ---------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------
+    // parar()->
+    // Detiene el servicio
+    // --------------------------------------------------------------
     public void parar () {
 
         Log.d(ETIQUETA_LOG, " ServicioEscucharBeacons.parar() " );

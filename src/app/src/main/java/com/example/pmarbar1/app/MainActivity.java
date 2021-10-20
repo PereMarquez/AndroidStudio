@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     //Métodos que usamos en el proyecto
     // --------------------------------------------------------------
 
-    // --------------------------------------------------------------
-    //buscarTodosLosDispositivosBTLE()
+   /* // --------------------------------------------------------------
+    //buscarTodosLosDispositivosBTLE()<-
     // Este método escanea los beacons y muestra los resultados de la búsqueda, tanto errores como
     // lo que está haciendo en cada momento
     // --------------------------------------------------------------
@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
         this.elEscanner.startScan( this.callbackDelEscaneo);
 
-    } // ()
+    } // ()*/
 
     // --------------------------------------------------------------
-    //ScanResult->mostrarInformacionDispositivoBTLE()
+    //ScanResult->mostrarInformacionDispositivoBTLE()<-
     // Este método nos muestra los beacons encontrados y nos da toda la información obtenida del
     // beacon en el LogCat
     //Además, se ha aplicado un filtro para que solamente muestre nuestro beacon, y no los demás
@@ -148,8 +148,9 @@ public class MainActivity extends AppCompatActivity {
     } // ()
 
     // --------------------------------------------------------------
-    //String->buscarEsteDispositivoBTLE()
+    //String->buscarEsteDispositivoBTLE()<-
     //Nos muestra la información del escaneo
+    //Aplica un filtro con el nobre del dispositivo que estamos buscando
     // --------------------------------------------------------------
     private void buscarEsteDispositivoBTLE(final String dispositivoBuscado ) {
         Log.d(ETIQUETA_LOG, " buscarEsteDispositivoBTLE(): empieza ");
@@ -190,8 +191,9 @@ public class MainActivity extends AppCompatActivity {
     } // ()
 
     // --------------------------------------------------------------
-    //detenerBusquedaDispositivosBTLE()
+    //detenerBusquedaDispositivosBTLE()->
     //Para el escaneo
+    // Método llamado en botonDetenerServicioPulsado()
     // --------------------------------------------------------------
     private void detenerBusquedaDispositivosBTLE() {
 
@@ -205,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
     } // ()
 
     // --------------------------------------------------------------
-    //inicializarBlueTooth()
+    //inicializarBlueTooth()->
     //Método que inicializa el bluetooth y nos muestra los pasos que va haciendo
     // --------------------------------------------------------------
     private void inicializarBlueTooth() {
@@ -292,6 +294,13 @@ public class MainActivity extends AppCompatActivity {
     //-------------------------------------------------------------------------
     //Métodos peticionario REST
     //-------------------------------------------------------------------------
+
+    //-------------------------------------------------------------------------
+    //View->boton_enviar_pulsado()<-
+    //Método en el que interactua el usuario al pulsar botón GET
+    //Muestra en LogCat un JSON con todas las mediciones de la bbdd
+    //Este método llama a la clase peticionarioREST
+    //-------------------------------------------------------------------------
     public void boton_enviar_pulsado (View quien) {
         Log.d("clienterestandroid", "boton_enviar_pulsado");
 
@@ -310,6 +319,12 @@ public class MainActivity extends AppCompatActivity {
 
     } // pulsado ()
 
+    //-------------------------------------------------------------------------
+    //View->boton_escribir_pulsado()->
+    //Método en el que interactua el usuario al pulsar botón POST
+    //Agrega una medición a la bbdd
+    //Este método llama a la clase peticionarioREST
+    //-------------------------------------------------------------------------
     public void boton_escribir_pulsado (View quien) {
         Log.d("clienterestandroid", "boton_escribir_pulsado");
 
@@ -332,7 +347,15 @@ public class MainActivity extends AppCompatActivity {
     } // pulsado ()
 
     // ---------------------------------------------------------------------------------------------
+    // Botones servicio
     // ---------------------------------------------------------------------------------------------
+
+    //-------------------------------------------------------------------------
+    //View->botonArrancarServicioPulsado()->
+    //Método en el que interactua el usuario al pulsar botón Arrancar servicio
+    //Arranca servicio escucha beacon
+    //Este método llama a inicializarBluetooth() y a buscarEsteDispositivoBTLE()
+    //-------------------------------------------------------------------------
     public void botonArrancarServicioPulsado( View v ) {
         Log.d(ETIQUETA_LOG, " boton arrancar servicio Pulsado" );
 
@@ -354,8 +377,12 @@ public class MainActivity extends AppCompatActivity {
 
     } // ()
 
-    // ---------------------------------------------------------------------------------------------
-    // ---------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
+    //View->botonDetenerServicioPulsado()->
+    //Método en el que interactua el usuario al pulsar botón Detener servicio
+    //Detiene servicio escucha beacon
+    //Este método llama a detenerBusquedaDispositivoBTLE
+    //-------------------------------------------------------------------------
     public void botonDetenerServicioPulsado( View v ) {
 
         if ( this.elIntentDelServicio == null ) {

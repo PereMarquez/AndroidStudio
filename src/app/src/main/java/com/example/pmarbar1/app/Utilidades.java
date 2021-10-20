@@ -13,6 +13,15 @@ import java.util.UUID;
 public class Utilidades {
 
     // -------------------------------------------------------------------------------
+    // Clase para transformar tipo de datos en otro
+    // -------------------------------------------------------------------------------
+
+
+    // -------------------------------------------------------------------------------
+    // [byte]<-
+    //          stringToBytes()<-
+    // String ->
+    // Devuelve un string como array de byte
     // -------------------------------------------------------------------------------
     public static byte[] stringToBytes ( String texto ) {
         return texto.getBytes();
@@ -20,6 +29,10 @@ public class Utilidades {
     } // ()
 
     // -------------------------------------------------------------------------------
+    // UUID<-
+    //          stringToUUID()<-
+    // String ->
+    // Devuelve un string como UUID
     // -------------------------------------------------------------------------------
     public static UUID stringToUUID( String uuid ) {
         if ( uuid.length() != 16 ) {
@@ -39,18 +52,30 @@ public class Utilidades {
     } // ()
 
     // -------------------------------------------------------------------------------
+    // String<-
+    //          uuidToString()<-
+    // UUID ->
+    // Devuelve un UUID como String
     // -------------------------------------------------------------------------------
     public static String uuidToString ( UUID uuid ) {
         return bytesToString( dosLongToBytes( uuid.getMostSignificantBits(), uuid.getLeastSignificantBits() ) );
     } // ()
 
     // -------------------------------------------------------------------------------
+    // String<-
+    //          uuidToHexString()<-
+    // UUID ->
+    // Devuelve un UUID como String
     // -------------------------------------------------------------------------------
     public static String uuidToHexString ( UUID uuid ) {
         return bytesToHexString( dosLongToBytes( uuid.getMostSignificantBits(), uuid.getLeastSignificantBits() ) );
     } // ()
 
     // -------------------------------------------------------------------------------
+    // String<-
+    //          bytesToString()<-
+    // [bytes] ->
+    // Devuelve un array de bytes como String
     // -------------------------------------------------------------------------------
     public static String bytesToString( byte[] bytes ) {
         if (bytes == null ) {
@@ -65,6 +90,10 @@ public class Utilidades {
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-
+    //          dosLongToBytes()<-
+    // long, long ->
+    // Devuelve dos long como array de byte
     // -------------------------------------------------------------------------------
     public static byte[] dosLongToBytes( long masSignificativos, long menosSignificativos ) {
         ByteBuffer buffer = ByteBuffer.allocate( 2 * Long.BYTES );
@@ -74,18 +103,30 @@ public class Utilidades {
     }
 
     // -------------------------------------------------------------------------------
+    // int<-
+    //          bytesToInt()<-
+    // [byte] ->
+    // Devuelve un array de bytes como int
     // -------------------------------------------------------------------------------
     public static int bytesToInt( byte[] bytes ) {
         return new BigInteger(bytes).intValue();
     }
 
     // -------------------------------------------------------------------------------
+    // long<-
+    //          uuidToString()<-
+    // [bytes] ->
+    // Devuelve un array de bytes como long
     // -------------------------------------------------------------------------------
     public static long bytesToLong( byte[] bytes ) {
         return new BigInteger(bytes).longValue();
     }
 
     // -------------------------------------------------------------------------------
+    // int<-
+    //          bytesToIntOK()<-
+    // [bytes] ->
+    // Devuelve un array de bytes como int
     // -------------------------------------------------------------------------------
     public static int bytesToIntOK( byte[] bytes ) {
         if (bytes == null ) {
@@ -124,6 +165,10 @@ public class Utilidades {
     } // ()
 
     // -------------------------------------------------------------------------------
+    // String<-
+    //          bytesToHexString()<-
+    // [bytes] ->
+    // Devuelve un array de bytes como String
     // -------------------------------------------------------------------------------
     public static String bytesToHexString( byte[] bytes ) {
 

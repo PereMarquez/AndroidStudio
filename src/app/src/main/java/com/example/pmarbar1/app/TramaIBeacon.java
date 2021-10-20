@@ -9,6 +9,10 @@ package com.example.pmarbar1.app;
 import java.util.Arrays;
 
 public class TramaIBeacon {
+
+    // -------------------------------------------------------------------------------
+    // Clase con getters para obtener la incormación del beacon escaneado
+    // -------------------------------------------------------------------------------
     private byte[] prefijo = null; // 9 bytes
     private byte[] uuid = null; // 16 bytes
     private byte[] major = null; // 2 bytes
@@ -24,72 +28,95 @@ public class TramaIBeacon {
     private byte iBeaconLength = 0 ; // 1 byte
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getPrefijo()<-
+    // Devuelve el prefijo del beacon
     // -------------------------------------------------------------------------------
     public byte[] getPrefijo() {
         return prefijo;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getUUID()<-
+    // Devuelve el UUID del beacon
     // -------------------------------------------------------------------------------
     public byte[] getUUID() {
         return uuid;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getMajor()<-
+    // Devuelve el valor mayor del beacon
     // -------------------------------------------------------------------------------
     public byte[] getMajor() {
         return major;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getMinor()<-
+    // Devuelve el valor menor del beacon
     // -------------------------------------------------------------------------------
     public byte[] getMinor() {
         return minor;
     }
 
     // -------------------------------------------------------------------------------
+    // byte<-getTxPower()<-
+    // Devuelve el texto de encendido del beacon
     // -------------------------------------------------------------------------------
     public byte getTxPower() {
         return txPower;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getLosBytes()<-
+    // Devuelve los bytes del beacon
     // -------------------------------------------------------------------------------
     public byte[] getLosBytes() {
         return losBytes;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getAdvFlags()<-
     // -------------------------------------------------------------------------------
     public byte[] getAdvFlags() {
         return advFlags;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getAdvHeader()<-
+    // Devuelve la cabezera del beacon
     // -------------------------------------------------------------------------------
     public byte[] getAdvHeader() {
         return advHeader;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]<-getCompanyID()<-
+    // Devuelve la ID del beacon
     // -------------------------------------------------------------------------------
     public byte[] getCompanyID() {
         return companyID;
     }
 
     // -------------------------------------------------------------------------------
+    // byte<-getiBeaconType()<-
+    // Devuelve el tipo de beacon
     // -------------------------------------------------------------------------------
     public byte getiBeaconType() {
         return iBeaconType;
     }
 
     // -------------------------------------------------------------------------------
+    // byte<-getiBeaconLength()<-
+    // Devuelve la longitud del beacon
     // -------------------------------------------------------------------------------
     public byte getiBeaconLength() {
         return iBeaconLength;
     }
 
     // -------------------------------------------------------------------------------
+    // [byte]->TramaIBeacon()->
+    // Constructor de la clase, relaciona los atributos
     // -------------------------------------------------------------------------------
     public TramaIBeacon(byte[] bytes ) {
         this.losBytes = bytes;

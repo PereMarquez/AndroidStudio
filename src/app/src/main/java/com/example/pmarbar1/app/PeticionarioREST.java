@@ -5,7 +5,7 @@ package com.example.pmarbar1.app;
 // Nombre del fichero: PeticionarioREST.java
 // Autor: Pere Márquez Barber
 // Fecha: 15/10/21
-// Fichero para lo smétodos del peticionario REST, GET y POST
+// Fichero para los métodos del peticionario REST, GET y POST
 // ------------------------------------------------------------------
 
 import android.os.AsyncTask;
@@ -42,8 +42,15 @@ public class PeticionarioREST extends AsyncTask<Void, Void, Boolean> {
     private String cuerpoRespuesta = "";
 
 
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
+    // --------------------------------------------------------------
+    //String, String, String, RespuestaREST ->hacerPeticionREST()->
+    //Petición REST, en la llamada a este método se determina en los parámetros el método a usar
+    // y, dependiendo de este, cambia la forma de los parámetros
+    // Método usado en MainActivity.java para métodos GET y POST
+    // En GET cuerpo=null
+    // En POST cuerpo=JSON que se incorporará a la bbdd
+    // laRespuesta=cuerpo de la respuesta indicado en el backend dependiendo si ha sido correcto o no
+    // --------------------------------------------------------------
     public void hacerPeticionREST (String metodo, String urlDestino, String cuerpo, RespuestaREST  laRespuesta) {
         this.elMetodo = metodo;
         this.urlDestino = urlDestino;
@@ -53,8 +60,10 @@ public class PeticionarioREST extends AsyncTask<Void, Void, Boolean> {
         this.execute(); // otro thread ejecutará doInBackground()
     }
 
-    // --------------------------------------------------------------------
-    // --------------------------------------------------------------------
+    // --------------------------------------------------------------
+    // PacerPeticionREST()<-
+    // Constructor de la clase
+    // --------------------------------------------------------------
     public PeticionarioREST() {
         Log.d("clienterestandroid", "constructor()");
     }
