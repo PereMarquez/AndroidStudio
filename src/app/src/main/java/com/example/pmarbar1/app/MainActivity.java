@@ -36,6 +36,8 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView tv_temp, tv_co2;
+    Button bt_post;
     // --------------------------------------------------------------
     //Variables estáticas creadas para usar más adelante
     // --------------------------------------------------------------
@@ -145,10 +147,17 @@ public class MainActivity extends AppCompatActivity {
             Log.d(ETIQUETA_LOG, " txPower  = " + Integer.toHexString(tib.getTxPower()) + " ( " + tib.getTxPower() + " )");
             Log.d(ETIQUETA_LOG, " ****************************************************");
         //}
+        if (Utilidades.bytesToInt(tib.getMajor())==12){
+            tv_temp.setText(Utilidades.bytesToInt(tib.getMinor())+"");
+        }else {
+            tv_co2.setText(Utilidades.bytesToInt(tib.getMinor())+"");
+        }
+
     } // ()
 
     // --------------------------------------------------------------
     //String->buscarEsteDispositivoBTLE()<-
+    // Crea un callback que cuando
     //Nos muestra la información del escaneo
     //Aplica un filtro con el nobre del dispositivo que estamos buscando
     // --------------------------------------------------------------
@@ -164,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(ETIQUETA_LOG, "  buscarEsteDispositivoBTLE(): onScanResult() ");
 
                 mostrarInformacionDispositivoBTLE( resultado );
+                beaconToJSON(resultado);
             }
 
             @Override
@@ -263,6 +273,10 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(ETIQUETA_LOG, " onCreate(): termina ");
 
+        tv_temp=findViewById(R.id.tv_med_temp);
+        tv_co2=findViewById(R.id.tv_med_co2);
+
+
     } // onCreate()
 
     // --------------------------------------------------------------
@@ -296,46 +310,19 @@ public class MainActivity extends AppCompatActivity {
     //-------------------------------------------------------------------------
 
     //-------------------------------------------------------------------------
-    //View->boton_enviar_pulsado()<-
-    //Método en el que interactua el usuario al pulsar botón GET
-    //Muestra en LogCat un JSON con todas las mediciones de la bbdd
-    //Este método llama a la clase peticionarioREST
-    //-------------------------------------------------------------------------
-    public void boton_enviar_pulsado (View quien) {
-        Log.d("clienterestandroid", "boton_enviar_pulsado");
-
-
-        // ojo: creo que hay que crear uno nuevo cada vez
-        PeticionarioREST elPeticionario = new PeticionarioREST();
-
-        elPeticionario.hacerPeticionREST("GET",  "http://172.20.10.9:8000/api/mostrarMedidas", null,
-                new PeticionarioREST.RespuestaREST () {
-                    @Override
-                    public void callback(int codigo, String cuerpo) {
-                        Log.d("Respuesta", "codigo respuesta= " + codigo + " <-> \n" + cuerpo);
-                    }
-                }
-        );
-
-    } // pulsado ()
-
-    //-------------------------------------------------------------------------
     //View->boton_escribir_pulsado()->
     //Método en el que interactua el usuario al pulsar botón POST
     //Agrega una medición a la bbdd
     //Este método llama a la clase peticionarioREST
     //-------------------------------------------------------------------------
-    public void boton_escribir_pulsado (View quien) {
+    public void postAgregar (String medicion) {
         Log.d("clienterestandroid", "boton_escribir_pulsado");
-
-        String cuerpoPost = "{" +
-                "\"valor\" : " + 888 +
-                "}";
 
         // ojo: creo que hay que crear uno nuevo cada vez
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
-        elPeticionario.hacerPeticionREST("POST",  "http://172.20.10.9:8000/api/agregar", cuerpoPost,
+        Log.d("Respuesta2", medicion+"");
+        elPeticionario.hacerPeticionREST("POST",  "http://172.20.10.2:8000/api/agregar", medicion,
                 new PeticionarioREST.RespuestaREST () {
                     @Override
                     public void callback(int codigo, String cuerpo) {
@@ -395,7 +382,6 @@ public class MainActivity extends AppCompatActivity {
         this.elIntentDelServicio = null;
 
         Log.d(ETIQUETA_LOG, "boton detener servicio Pulsado" );
-
         this.detenerBusquedaDispositivosBTLE();
 
 
@@ -403,7 +389,21 @@ public class MainActivity extends AppCompatActivity {
 
     // ---------------------------------------------------------------------------------------------
     // ---------------------------------------------------------------------------------------------
+    private void beaconToJSON(ScanResult result){
+        byte[] bytes = result.getScanRecord().getBytes();
+        TramaIBeacon tib = new TramaIBeacon(bytes);
 
+        if(Utilidades.bytesToInt(tib.getMajor())==12){
+            String medicion =
+                    "{" +
+                            "\"valor\":" +
+                            "\"" + Utilidades.bytesToInt(tib.getMinor()) + "\"" +
+                            "}";
+            postAgregar(medicion);
+        }
+
+
+    }
 
 } // class
 // --------------------------------------------------------------
